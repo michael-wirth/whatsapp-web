@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Proxy; use Doctrine; use stdClass as A; class LazyLoadableObjectWithNullableTypehints { private $identifierFieldReturnClassOneLetterNullable; private $identifierFieldReturnClassOneLetterNullableWithSpace; public function getIdentifierFieldReturnClassOneLetterNullable(): ?A { return $this->identifierFieldReturnClassOneLetterNullable; } public function getIdentifierFieldReturnClassOneLetterNullableWithSpace(): ? A { return $this->identifierFieldReturnClassOneLetterNullableWithSpace; } } 

@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Proxy; use InvalidArgumentException; class MagicGetByRefClass { public $valueField; public function & __get($name) { if ($name === 'value') { return $this->valueField; } throw new InvalidArgumentException(); } } 

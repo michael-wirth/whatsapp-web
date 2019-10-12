@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Annotations; use Doctrine\Tests\Common\Annotations\DummyAnnotation; use Doctrine\Tests\Common\Annotations\Name; use Doctrine\Tests\Common\Annotations\DummyJoinTable; use Doctrine\Tests\Common\Annotations\DummyJoinColumn; class DummyClass { private $field1; private $field2; public function getField1() { } public function getField3() { } } 

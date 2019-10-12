@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\Yaml\Tests; use PHPUnit\Framework\TestCase; use Symfony\Component\Yaml\Yaml; class YamlTest extends TestCase { public function testParseAndDump() { $data = array('lorem' => 'ipsum', 'dolor' => 'sit'); $yml = Yaml::dump($data); $parsed = Yaml::parse($yml); $this->assertEquals($data, $parsed); } public function testZeroIndentationThrowsException() { Yaml::dump(array('lorem' => 'ipsum', 'dolor' => 'sit'), 2, 0); } public function testNegativeIndentationThrowsException() { Yaml::dump(array('lorem' => 'ipsum', 'dolor' => 'sit'), 2, -4); } } 

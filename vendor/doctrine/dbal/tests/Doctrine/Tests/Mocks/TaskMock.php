@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Mocks; use Doctrine\Common\Cli\AbstractNamespace; class TaskMock extends \Doctrine\Common\Cli\Tasks\AbstractTask { static public $instances = array(); private $runCounter = 0; function __construct(AbstractNamespace $namespace) { self::$instances[] = $this; parent::__construct($namespace); } public function getRunCounter() { return $this->runCounter; } public function run() { $this->runCounter++; } public function buildDocumentation() { } } 

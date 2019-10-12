@@ -1,0 +1,2 @@
+<?php
+ namespace Touhonoob\RateLimit; abstract class Adapter { abstract public function set($key, $value, $ttl); abstract public function get($key); abstract public function exists($key); abstract public function del($key); } 

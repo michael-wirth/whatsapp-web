@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\Security\Http\Authentication; use Symfony\Component\HttpFoundation\Request; use Symfony\Component\Security\Core\Authentication\SimpleAuthenticatorInterface; interface SimplePreAuthenticatorInterface extends SimpleAuthenticatorInterface { public function createToken(Request $request, $providerKey); } 

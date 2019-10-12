@@ -1,0 +1,2 @@
+<?php
+ namespace Sodium { if (!extension_loaded('libsodium')) { function randombytes_buf( $length ) { return ''; } function randombytes_random16() { return ''; } function randombytes_uniform( $upperBoundNonInclusive ) { return 0; } } } namespace { class Sodium { public static function randombytes_buf($length) { return ''; } public static function randombytes_random16() { return ''; } public static function randombytes_uniform($upperBoundNonInclusive = 0) { return 0; } } }

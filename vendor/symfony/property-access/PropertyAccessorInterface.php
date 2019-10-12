@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\PropertyAccess; interface PropertyAccessorInterface { public function setValue(&$objectOrArray, $propertyPath, $value); public function getValue($objectOrArray, $propertyPath); public function isWritable($objectOrArray, $propertyPath); public function isReadable($objectOrArray, $propertyPath); } 

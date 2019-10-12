@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Annotations\Fixtures; use Doctrine\Tests\Common\Annotations\Fixtures\Annotation\Template; use Doctrine\Tests\Common\Annotations\Fixtures\Annotation\Route; class ControllerWithParentClass extends AbstractController { public function indexAction() { return array(); } } 

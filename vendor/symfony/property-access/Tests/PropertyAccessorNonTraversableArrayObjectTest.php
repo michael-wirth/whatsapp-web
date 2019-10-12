@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\PropertyAccess\Tests; use Symfony\Component\PropertyAccess\Tests\Fixtures\NonTraversableArrayObject; class PropertyAccessorNonTraversableArrayObjectTest extends PropertyAccessorArrayAccessTest { protected function getContainer(array $array) { return new NonTraversableArrayObject($array); } } 

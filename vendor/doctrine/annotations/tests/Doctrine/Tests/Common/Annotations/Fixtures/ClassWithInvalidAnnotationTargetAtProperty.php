@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Annotations\Fixtures; use Doctrine\Tests\Common\Annotations\Fixtures\AnnotationTargetClass; use Doctrine\Tests\Common\Annotations\Fixtures\AnnotationTargetAnnotation; class ClassWithInvalidAnnotationTargetAtProperty { public $foo; public $bar; }

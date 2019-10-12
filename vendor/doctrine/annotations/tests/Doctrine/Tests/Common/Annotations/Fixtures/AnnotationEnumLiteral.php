@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Annotations\Fixtures; use Doctrine\Tests\Common\Annotations\Fixtures\AnnotationEnumLiteral as SelfEnum; final class AnnotationEnumLiteral { const ONE = 1; const TWO = 2; const THREE = 3; public $value; }

@@ -1,0 +1,2 @@
+<?php
+ namespace Silex\Application; use Symfony\Component\Routing\Generator\UrlGeneratorInterface; trait UrlGeneratorTrait { public function path($route, $parameters = array()) { return $this['url_generator']->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_PATH); } public function url($route, $parameters = array()) { return $this['url_generator']->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_URL); } } 

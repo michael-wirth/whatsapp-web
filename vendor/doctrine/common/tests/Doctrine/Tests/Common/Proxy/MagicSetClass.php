@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Proxy; class MagicSetClass { public $id = 'id'; public $publicField = 'publicField'; public $testAttribute; public function __set($name, $value) { if ($name === 'test') { $this->testAttribute = $value; } if ($name === 'publicField' || $name === 'id') { throw new \BadMethodCallException('Should never be called for "publicField" or "id"'); } $this->testAttribute = $value; } } 

@@ -1,0 +1,2 @@
+<?php
+ namespace Silex\Application; use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException; use Symfony\Component\Security\Core\User\UserInterface; trait SecurityTrait { public function encodePassword(UserInterface $user, $password) { return $this['security.encoder_factory']->getEncoder($user)->encodePassword($password, $user->getSalt()); } public function isGranted($attributes, $object = null) { return $this['security.authorization_checker']->isGranted($attributes, $object); } } 

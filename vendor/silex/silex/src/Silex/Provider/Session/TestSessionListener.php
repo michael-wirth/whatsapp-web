@@ -1,0 +1,2 @@
+<?php
+ namespace Silex\Provider\Session; use Pimple\Container; use Symfony\Component\HttpKernel\EventListener\TestSessionListener as BaseTestSessionListener; class TestSessionListener extends BaseTestSessionListener { private $app; public function __construct(Container $app) { $this->app = $app; } protected function getSession() { if (!isset($this->app['session'])) { return; } return $this->app['session']; } } 

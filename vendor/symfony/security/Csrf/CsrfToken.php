@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\Security\Csrf; class CsrfToken { private $id; private $value; public function __construct($id, $value) { $this->id = (string) $id; $this->value = (string) $value; } public function getId() { return $this->id; } public function getValue() { return $this->value; } public function __toString() { return $this->value; } } 

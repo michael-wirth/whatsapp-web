@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Proxy; class SerializedClass { private $foo = 'foo'; protected $bar = 'bar'; public $baz = 'baz'; public function setFoo($foo) { $this->foo = $foo; } public function getFoo() { return $this->foo; } public function setBar($bar) { $this->bar = $bar; } public function getBar() { return $this->bar; } public function setBaz($baz) { $this->baz = $baz; } public function getBaz() { return $this->baz; } } 

@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\Security\Http\Util; use Symfony\Component\HttpFoundation\Session\SessionInterface; trait TargetPathTrait { private function saveTargetPath(SessionInterface $session, $providerKey, $uri) { $session->set('_security.'.$providerKey.'.target_path', $uri); } private function getTargetPath(SessionInterface $session, $providerKey) { return $session->get('_security.'.$providerKey.'.target_path'); } private function removeTargetPath(SessionInterface $session, $providerKey) { $session->remove('_security.'.$providerKey.'.target_path'); } } 

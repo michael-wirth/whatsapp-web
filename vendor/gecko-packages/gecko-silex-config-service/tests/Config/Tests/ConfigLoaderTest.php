@@ -1,0 +1,2 @@
+<?php
+ namespace GeckoPackages\Silex\Services\Config\Tests; use GeckoPackages\Silex\Services\Config\ConfigLoader; use Silex\Application; class ConfigLoaderTest extends \PHPUnit_Framework_TestCase { public function testOffsetSet() { $loader = new ConfigLoader(new Application()); $loader->offsetSet(1, 2); } public function testOffsetUnset() { $loader = new ConfigLoader(new Application()); $loader->offsetUnset(1); } } 

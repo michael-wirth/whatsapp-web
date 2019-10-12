@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\Security\Core\Authorization; use Symfony\Component\Security\Core\Authentication\Token\TokenInterface; class_exists(TraceableAccessDecisionManager::class); if (false) { class DebugAccessDecisionManager implements AccessDecisionManagerInterface { public function decide(TokenInterface $token, array $attributes, $object = null) { } } } 

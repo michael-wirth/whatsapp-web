@@ -1,0 +1,2 @@
+<?php
+ namespace GeckoPackages\Silex\Services\Config\Loader; use Symfony\Component\Filesystem\Exception\FileNotFoundException; use Symfony\Component\Filesystem\Exception\IOException; interface LoaderInterface { public function getConfig($file); } 

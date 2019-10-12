@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\PropertyAccess; use Symfony\Component\Inflector\Inflector; class StringUtil { private function __construct() { } public static function singularify($plural) { @trigger_error('StringUtil::singularify() is deprecated since version 3.1 and will be removed in 4.0. Use Symfony\Component\Inflector\Inflector::singularize instead.', E_USER_DEPRECATED); return Inflector::singularize($plural); } } 

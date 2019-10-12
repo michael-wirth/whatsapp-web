@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\PropertyAccess\Tests\Fixtures; class TestClassTypeErrorInsideCall { public function expectsDateTime(\DateTime $date) { } public function getProperty() { } public function setProperty($property) { $this->expectsDateTime(null); } } 

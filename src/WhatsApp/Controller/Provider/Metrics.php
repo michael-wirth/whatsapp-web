@@ -1,0 +1,2 @@
+<?php
+namespace WhatsApp\Controller\Provider; use Silex\Application; use Silex\Api\ControllerProviderInterface; class Metrics implements ControllerProviderInterface { public function connect(Application $app) { $metrics = $app["controllers_factory"]; $metrics->get("/", "WhatsApp\\Controller\\MetricsController::getMetrics"); return $metrics; } } 

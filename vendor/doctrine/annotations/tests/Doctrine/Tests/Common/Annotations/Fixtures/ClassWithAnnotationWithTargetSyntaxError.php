@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Annotations\Fixtures; use Doctrine\Tests\Common\Annotations\Fixtures\AnnotationWithTargetSyntaxError; class ClassWithAnnotationWithTargetSyntaxError { public $foo; public function bar(){} }

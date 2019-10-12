@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\PropertyAccess; final class PropertyAccess { public static function createPropertyAccessor() { return self::createPropertyAccessorBuilder()->getPropertyAccessor(); } public static function createPropertyAccessorBuilder() { return new PropertyAccessorBuilder(); } private function __construct() { } } 

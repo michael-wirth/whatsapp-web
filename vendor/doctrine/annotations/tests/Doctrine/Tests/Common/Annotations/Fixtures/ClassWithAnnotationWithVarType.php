@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Annotations\Fixtures; use Doctrine\Tests\Common\Annotations\Fixtures\AnnotationWithVarType; use Doctrine\Tests\Common\Annotations\Fixtures\AnnotationTargetAll; use Doctrine\Tests\Common\Annotations\Fixtures\AnnotationTargetAnnotation; class ClassWithAnnotationWithVarType { public $foo; public function bar(){} public $invalidProperty; public function invalidMethod(){} }

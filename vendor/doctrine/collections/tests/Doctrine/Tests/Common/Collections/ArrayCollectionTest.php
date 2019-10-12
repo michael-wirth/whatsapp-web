@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Collections; use Doctrine\Common\Collections\ArrayCollection; class ArrayCollectionTest extends BaseArrayCollectionTest { protected function buildCollection(array $elements = []) { return new ArrayCollection($elements); } } 

@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\Security\Guard; use Symfony\Component\Security\Core\User\UserInterface; use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken; abstract class AbstractGuardAuthenticator implements GuardAuthenticatorInterface { public function createAuthenticatedToken(UserInterface $user, $providerKey) { return new PostAuthenticationGuardToken( $user, $providerKey, $user->getRoles() ); } } 

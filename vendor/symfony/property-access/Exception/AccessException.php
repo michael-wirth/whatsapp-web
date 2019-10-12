@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\PropertyAccess\Exception; class AccessException extends RuntimeException { } 

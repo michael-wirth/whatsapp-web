@@ -1,0 +1,2 @@
+<?php
+ namespace Silex\Tests\Provider\ValidatorServiceProviderTest\Constraint; use Symfony\Component\Validator\Constraint; use Symfony\Component\Validator\ConstraintValidator; class CustomValidator extends ConstraintValidator { public function isValid($value, Constraint $constraint) { return true; } public function validate($value, Constraint $constraint) { return $this->isValid($value, $constraint); } } 

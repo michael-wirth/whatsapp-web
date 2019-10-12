@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\Yaml\Tag; final class TaggedValue { private $tag; private $value; public function __construct($tag, $value) { $this->tag = $tag; $this->value = $value; } public function getTag() { return $this->tag; } public function getValue() { return $this->value; } } 

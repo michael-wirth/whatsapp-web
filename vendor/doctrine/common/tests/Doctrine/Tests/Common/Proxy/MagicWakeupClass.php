@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Proxy; class MagicWakeupClass { public $id = 'id'; public $publicField = 'publicField'; public $wakeupValue = 'defaultValue'; public function __wakeup() { $this->wakeupValue = 'newWakeupValue'; } } 

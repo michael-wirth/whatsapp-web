@@ -1,0 +1,2 @@
+<?php
+ namespace Silex\Tests; use PHPUnit\Framework\TestCase; use Silex\ControllerResolver; use Silex\Application; use Symfony\Component\HttpFoundation\Request; class ControllerResolverTest extends TestCase { public function testGetArguments() { $app = new Application(); $resolver = new ControllerResolver($app); $controller = function (Application $app) {}; $args = $resolver->getArguments(Request::create('/'), $controller); $this->assertSame($app, $args[0]); } } 

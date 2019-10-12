@@ -1,0 +1,2 @@
+<?php
+ namespace Silex\Application; trait TranslationTrait { public function trans($id, array $parameters = array(), $domain = 'messages', $locale = null) { return $this['translator']->trans($id, $parameters, $domain, $locale); } public function transChoice($id, $number, array $parameters = array(), $domain = 'messages', $locale = null) { return $this['translator']->transChoice($id, $number, $parameters, $domain, $locale); } } 

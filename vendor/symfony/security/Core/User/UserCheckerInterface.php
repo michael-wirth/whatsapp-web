@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\Security\Core\User; use Symfony\Component\Security\Core\Exception\AccountStatusException; interface UserCheckerInterface { public function checkPreAuth(UserInterface $user); public function checkPostAuth(UserInterface $user); } 

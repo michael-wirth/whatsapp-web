@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\Security\Csrf; interface CsrfTokenManagerInterface { public function getToken($tokenId); public function refreshToken($tokenId); public function removeToken($tokenId); public function isTokenValid(CsrfToken $token); } 

@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Annotations\Fixtures; final class AnnotationWithVarType { public $mixed; public $boolean; public $bool; public $float; public $string; public $integer; public $array; public $annotation; public $arrayOfIntegers; public $arrayOfStrings; public $arrayOfAnnotations; }

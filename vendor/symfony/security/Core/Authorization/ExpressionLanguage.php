@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\Security\Core\Authorization; use Symfony\Component\ExpressionLanguage\ExpressionLanguage as BaseExpressionLanguage; class ExpressionLanguage extends BaseExpressionLanguage { public function __construct($cache = null, array $providers = array()) { array_unshift($providers, new ExpressionLanguageProvider()); parent::__construct($cache, $providers); } } 

@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Proxy; class NullableNonOptionalHintClass { public function midSignatureNullableParameter(\stdClass $param = null, $secondParam) { } public function midSignatureNotNullableHintedParameter(string $param = 'foo', $secondParam) { } } 

@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Collections; use Doctrine\Common\Collections\ArrayCollection; use Doctrine\Tests\LazyArrayCollection; class LazyCollectionTest extends BaseCollectionTest { protected function setUp() { $this->collection = new LazyArrayCollection(new ArrayCollection()); } } 

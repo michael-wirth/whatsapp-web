@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\DBAL\Exception; use Doctrine\DBAL\Exception\InvalidArgumentException; use PHPUnit_Framework_TestCase; class InvalidArgumentExceptionTest extends PHPUnit_Framework_TestCase { public function testFromEmptyCriteria() { $exception = InvalidArgumentException::fromEmptyCriteria(); $this->assertInstanceOf('Doctrine\DBAL\Exception\InvalidArgumentException', $exception); $this->assertSame('Empty criteria was used, expected non-empty criteria', $exception->getMessage()); } } 

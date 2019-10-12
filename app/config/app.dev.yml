@@ -1,0 +1,10 @@
+log:
+  level: debug
+  dir: /var/log/whatsapp/
+  file: /var/log/whatsapp/web.log
+token:
+  # (in seconds) 7 days: 604800; 1 day: 86400; 1 hour: 3600
+  lifetime: 604800
+data:
+  dir: /usr/local/waent/data/web
+  db_config_file: /var/lib/whatsapp/database.yml

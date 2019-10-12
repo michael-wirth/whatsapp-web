@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Annotations\Fixtures; final class AnnotationWithRequiredAttributes { public final function __construct(array $data) { foreach ($data as $key => $value) { $this->$key = $value; } } private $value; private $annot; public function getValue() { return $this->value; } public function getAnnot() { return $this->annot; } }

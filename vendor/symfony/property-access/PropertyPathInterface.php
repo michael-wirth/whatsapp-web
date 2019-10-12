@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\PropertyAccess; interface PropertyPathInterface extends \Traversable { public function __toString(); public function getLength(); public function getParent(); public function getElements(); public function getElement($index); public function isProperty($index); public function isIndex($index); } 

@@ -1,0 +1,2 @@
+<?php
+ namespace Silex\Tests\Fixtures; use Silex\Application; class Php7Controller { public function typehintedAction(Application $application, string $name) { return 'Hello '.$application->escape($name).' in '.get_class($application); } } 

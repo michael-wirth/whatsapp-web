@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\Security\Http\RememberMe; use Symfony\Component\Security\Core\Authentication\Token\TokenInterface; use Symfony\Component\HttpFoundation\Response; use Symfony\Component\HttpFoundation\Request; interface RememberMeServicesInterface { const COOKIE_ATTR_NAME = '_security_remember_me_cookie'; public function autoLogin(Request $request); public function loginFail(Request $request); public function loginSuccess(Request $request, Response $response, TokenInterface $token); } 

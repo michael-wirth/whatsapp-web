@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Proxy; class MagicCloneClass { public $id = 'id'; public $publicField = 'publicField'; public $cloned = false; public $clonedValue = 'defaultValue'; public function __clone() { $this->clonedValue = 'newClonedValue'; } } 

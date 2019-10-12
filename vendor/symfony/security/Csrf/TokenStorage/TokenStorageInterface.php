@@ -1,0 +1,2 @@
+<?php
+ namespace Symfony\Component\Security\Csrf\TokenStorage; interface TokenStorageInterface { public function getToken($tokenId); public function setToken($tokenId, $token); public function removeToken($tokenId); public function hasToken($tokenId); } 

@@ -1,0 +1,2 @@
+<?php
+ namespace Doctrine\Tests\Common\Proxy; class MagicSleepClass { public $id = 'id'; public $publicField = 'publicField'; public $serializedField = 'defaultValue'; public $nonSerializedField = 'defaultValue'; public function __sleep() { return ['serializedField']; } } 
