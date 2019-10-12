@@ -1,35 +1,41 @@
 <?php
+
 namespace WhatsApp\Security;
+
+use Silex\Application;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Silex\Application;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use WhatsApp\Common\ApiError;
 use WhatsApp\Common\ApiErrors;
 use WhatsApp\Common\Util;
 use WhatsApp\Constants;
-use WhatsApp\Security\TokenizerFactory;
-use WhatsApp\Security\TokenStorage;
-class TokenAuthenticator extends AbstractGuardAuthenticator {
+
+class TokenAuthenticator extends AbstractGuardAuthenticator
+{
     private $encoderFactory;
     private $app;
     private $logger;
     private $tokenizer;
     private $tokenStore;
-    public function __construct(EncoderFactory $encoderFactory, Application $app) {
+
+    public function __construct(EncoderFactory $encoderFactory, Application $app)
+    {
         $this->encoderFactory = $encoderFactory;
         $this->app = $app;
         $this->logger = $app['monolog'];
         $this->tokenStore = new TokenStorage($app['db'], Constants::TABLE_TOKENS, $this->logger);
     }
-    public function getCredentials(Request $request) {
-		#Util::printObject($this->logger, 'request', $request->headers);
+
+    public function getCredentials(Request $request)
+    {
+        #Util::printObject($this->logger, 'request', $request->headers);
 
         if (!$auth_token = $request->headers->get(Constants::TOKEN_FIELD)) {
             $this->logger->warning("Missing authentication token");
@@ -50,10 +56,14 @@ class TokenAuthenticator extends AbstractGuardAuthenticator {
         $username = JWTTokenBase::getUsername($tokens[1]);
         return array('username' => $username, 'token' => $tokens[1],);
     }
-    public function getUser($credentials, UserProviderInterface $userProvider) {
+
+    public function getUser($credentials, UserProviderInterface $userProvider)
+    {
         return $userProvider->loadUserByUsername($credentials['username']);
     }
-    public function checkCredentials($credentials, UserInterface $user) {
+
+    public function checkCredentials($credentials, UserInterface $user)
+    {
         $token = $credentials['token'];
         $valid = false;
         do {
@@ -70,22 +80,30 @@ class TokenAuthenticator extends AbstractGuardAuthenticator {
         } while (false);
         return $valid;
     }
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey) {
+
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    {
         return;
     }
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {
+
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
         $errors = new ApiErrors();
         $errors->add(ApiError::ACCESS_DENIED, strtr($exception->getMessageKey(), $exception->getMessageData()));
         $post = Util::genResponse(null, null, $errors, $this->app);
         return new JsonResponse($post, Response::HTTP_UNAUTHORIZED);
     }
-    public function start(Request $request, AuthenticationException $authException = null) {
+
+    public function start(Request $request, AuthenticationException $authException = null)
+    {
         $errors = new ApiErrors();
         $errors->add(ApiError::ACCESS_DENIED, 'Missing or invalid authentication credentials');
         $post = Util::genResponse(null, null, $errors, $this->app);
         return new JsonResponse($post, Response::HTTP_UNAUTHORIZED);
     }
-    public function supportsRememberMe() {
+
+    public function supportsRememberMe()
+    {
         return false;
     }
 }

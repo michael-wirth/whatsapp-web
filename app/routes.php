@@ -1,4 +1,5 @@
 <?php
+
 use WhatsApp\Controller\Provider\Account;
 use WhatsApp\Controller\Provider\Admin;
 use WhatsApp\Controller\Provider\Certificates;
@@ -8,12 +9,12 @@ use WhatsApp\Controller\Provider\Health;
 use WhatsApp\Controller\Provider\Helper;
 use WhatsApp\Controller\Provider\Media;
 use WhatsApp\Controller\Provider\Messages;
+use WhatsApp\Controller\Provider\Metrics;
 use WhatsApp\Controller\Provider\Settings;
 use WhatsApp\Controller\Provider\Stats;
 use WhatsApp\Controller\Provider\Support;
-use WhatsApp\Controller\Provider\Tokens;
 use WhatsApp\Controller\Provider\Users;
-use WhatsApp\Controller\Provider\Metrics;
+
 $app->mount("/", new Helper());
 $app->mount("/v1/account", new Account());
 $app->mount("/v1/admin", new Admin());

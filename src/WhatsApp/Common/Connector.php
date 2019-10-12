@@ -1,60 +1,107 @@
 <?php
 namespace WhatsApp\Common;
+
 use WhatsApp\Constants;
-use WhatsApp\Common\ApiError;
-use WhatsApp\Common\ApiErrors;
-use WhatsApp\Common\ConnectorConfig;
-use WhatsApp\Common\Cluster;
-use WhatsApp\Common\ClusterInfo;
-use WhatsApp\Common\Util;
-use WhatsApp\Security\SecurePayload;
-use WhatsApp\Security\CryptoUtils;
 use WhatsApp\Metrics\GlobalMetricsType;
 use WhatsApp\Metrics\StoreTime;
-abstract class PORT_OFFSET {
+use WhatsApp\Security\CryptoUtils;
+use WhatsApp\Security\SecurePayload;
+
+abstract class PORT_OFFSET
+{
     const MESSAGE_PORT = 0;
     const CONTACT_PORT = 1;
     const CONTROL_PORT = 2;
-};
-class Connector {
+}
+
+;
+
+class Connector
+{
     const PORT_OFFSET_MAP = array('message' => PORT_OFFSET::MESSAGE_PORT, 'contact' => PORT_OFFSET::CONTACT_PORT, 'control' => PORT_OFFSET::CONTROL_PORT,);
     const MASTER_ONLY_COMMANDS = array("set_settings", "get_settings", "delete_settings", "import", "export", "code_request", "register", "get_shards", "set_shards", "delete_messages", "get_webhook_ca_certs", "set_webhook_ca_certs", "delete_webhook_ca_certs", "delete_content_provider_configs", "get_content_provider_configs", "set_content_provider_configs");
-    public static function full_write($sock, $buf, $size = - 1) {
-        if ($size == - 1) {
-            $size = strlen($buf);
-        }
-        $zero_len_retries = 0;
-        for ($written = 0;$written < $size;$written+= $fwrite) {
-            $fwrite = fwrite($sock, substr($buf, $written), $size - $written);
-            if ($fwrite === false) {
-                return false;
-            } else if ($fwrite === 0) {
-                if ($zero_len_retries++ > 5) {
-                    return false;
-                }
-            } else {
-                $zero_len_retries = 0;
-            }
-        }
-        return true;
-    }
-    public static function send_receive($app, $obj, $endpoint, $errors, $logger = null, $version = 3) {
+
+    public static function send_receive($app, $obj, $endpoint, $errors, $logger = null, $version = 3)
+    {
         try {
             $config_object = self::get_node_config($app, $obj, $endpoint);
-        }
-        catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             $errors->add(ApiError::INTERNAL_ERROR, $exception->getMessage());
             $app["monolog"]->error($exception->getMessage());
             return null;
         }
         return self::send_receive_with_config($obj, $config_object, $endpoint, $errors, $logger, $version, $app);
     }
-    public static function send_receive_with_config($obj, $config_object, $endpoint, $errors, $logger, $version, $app) {
+
+    public static function get_node_config($app, $obj, $endpoint)
+    {
+        if (Util::isMultiConnect()) {
+            $cluster = new Cluster();
+            $cluster->initDatabase($app);
+            $clusterInfo = $cluster->getClusterInfo();
+            $portOffset = self::PORT_OFFSET_MAP[$endpoint];
+            if ($portOffset === PORT_OFFSET::MESSAGE_PORT) {
+                if (!isset($obj->to) || $obj->to === "") {
+                    return $clusterInfo->getRandomCoreApp();
+                }
+                return $clusterInfo->getCoreApp(Util::getShardId($obj->to, $clusterInfo->getServerShards()));
+            } else if ($portOffset === PORT_OFFSET::CONTACT_PORT) {
+                return $clusterInfo->getRandomCoreApp();
+            } else if ($portOffset === PORT_OFFSET::CONTROL_PORT) {
+                $payload = $obj;
+                reset($payload);
+                $command = key($payload);
+                if (in_array($command, self::MASTER_ONLY_COMMANDS)) {
+                    return $clusterInfo->getMaster();
+                } else {
+                    return $clusterInfo->getRandomCoreApp();
+                }
+            } else {
+                return $clusterInfo->getMaster();
+            }
+        } else {
+            return self::read_config();
+        }
+    }
+
+    public static function read_config()
+    {
+        $res = new ConnectorConfig();
+        $json_str = null;
+        $conf_file = "/etc/wa_config.json";
+        if (file_exists($conf_file)) {
+            $json_str = file_get_contents($conf_file);
+        }
+        if (!$json_str) {
+            $res->use_tcp = false;
+        } else {
+            $fileobj = json_decode($json_str);
+            if (isset($fileobj->use_tcp)) {
+                $res->use_tcp = $fileobj->use_tcp;
+            } else {
+                $res->use_tcp = false;
+            }
+            if (isset($fileobj->hostname)) {
+                $res->hostname = $fileobj->hostname;
+            } else {
+                $res->hostname = "127.0.0.1";
+            }
+            if (isset($fileobj->baseport)) {
+                $res->baseport = $fileobj->baseport;
+            } else {
+                $res->baseport = 6250;
+            }
+        }
+        return $res;
+    }
+
+    public static function send_receive_with_config($obj, $config_object, $endpoint, $errors, $logger, $version, $app)
+    {
         if ($config_object->use_tcp) {
             $hostStr = $config_object->hostname . ":" . $config_object->getPort(self::PORT_OFFSET_MAP[$endpoint]);
         } else {
             $hostStr = $unix_socket_name = $endpoint . '_socket';
-        }       
+        }
         $storeTime = new StoreTime($app, GlobalMetricsType::API_REQUESTS_COREAPP, array($hostStr));
         $raw_json_without_meta = json_encode($obj);
         $json_request = json_decode($raw_json_without_meta, true);
@@ -105,7 +152,7 @@ class Connector {
                 fclose($sock);
                 return null;
             }
-            $buf.= fread($sock, 1024);
+            $buf .= fread($sock, 1024);
         }
         fclose($sock);
         if ($secretKey) {
@@ -124,7 +171,30 @@ class Connector {
         $storeTime->setResult("ok");
         return json_decode($buf);
     }
-    public static function check_contacts($json_query) {
+
+    public static function full_write($sock, $buf, $size = -1)
+    {
+        if ($size == -1) {
+            $size = strlen($buf);
+        }
+        $zero_len_retries = 0;
+        for ($written = 0; $written < $size; $written += $fwrite) {
+            $fwrite = fwrite($sock, substr($buf, $written), $size - $written);
+            if ($fwrite === false) {
+                return false;
+            } else if ($fwrite === 0) {
+                if ($zero_len_retries++ > 5) {
+                    return false;
+                }
+            } else {
+                $zero_len_retries = 0;
+            }
+        }
+        return true;
+    }
+
+    public static function check_contacts($json_query)
+    {
         $out_jq = new JSON_Query();
         if (!$json_query->payload || !$json_query->payload->users) {
             $out_jq->set_error("missing params payload|users", 400);
@@ -132,20 +202,25 @@ class Connector {
         }
         return self::socket_io($json_query, 1, "contact_socket");
     }
-    public static function control($json_query, $version = "2") {
+
+    public static function control($json_query, $version = "2")
+    {
         $out_jq = new JSON_Query();
         return self::socket_io($json_query, 2, "control_socket", $version);
     }
-    public static function set_settings($json_query) {
+
+    public static function set_settings($json_query)
+    {
         return WA_Connector::control($json_query, "1");
     }
-    public static function check_health_multiconnect($app, $stats_type, $errors) {
+
+    public static function check_health_multiconnect($app, $stats_type, $errors)
+    {
         try {
             $cluster = new Cluster();
             $cluster->initDatabase($app);
             $nodes = $cluster->getNodes();
-        }
-        catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             $errors->add(ApiError::INTERNAL_ERROR, $exception->getMessage());
             $app["monolog"]->error($exception->getMessage());
             return null;
@@ -186,62 +261,6 @@ class Connector {
         $result->payload = $res_payload;
         return $result;
     }
-    public static function get_node_config($app, $obj, $endpoint) {
-        if (Util::isMultiConnect()) {
-            $cluster = new Cluster();
-            $cluster->initDatabase($app);
-            $clusterInfo = $cluster->getClusterInfo();
-            $portOffset = self::PORT_OFFSET_MAP[$endpoint];
-            if ($portOffset === PORT_OFFSET::MESSAGE_PORT) {
-                if (!isset($obj->to) || $obj->to === "") {
-                    return $clusterInfo->getRandomCoreApp();
-                }
-                return $clusterInfo->getCoreApp(Util::getShardId($obj->to, $clusterInfo->getServerShards()));
-            } else if ($portOffset === PORT_OFFSET::CONTACT_PORT) {
-                return $clusterInfo->getRandomCoreApp();
-            } else if ($portOffset === PORT_OFFSET::CONTROL_PORT) {
-                $payload = $obj;
-                reset($payload);
-                $command = key($payload);
-                if (in_array($command, self::MASTER_ONLY_COMMANDS)) {
-                    return $clusterInfo->getMaster();
-                } else {
-                    return $clusterInfo->getRandomCoreApp();
-                }
-            } else {
-                return $clusterInfo->getMaster();
-            }
-        } else {
-            return self::read_config();
-        }
-    }
-    public static function read_config() {
-        $res = new ConnectorConfig();
-        $json_str = null;
-        $conf_file = "/etc/wa_config.json";
-        if (file_exists($conf_file)) {
-            $json_str = file_get_contents($conf_file);
-        }
-        if (!$json_str) {
-            $res->use_tcp = false;
-        } else {
-            $fileobj = json_decode($json_str);
-            if (isset($fileobj->use_tcp)) {
-                $res->use_tcp = $fileobj->use_tcp;
-            } else {
-                $res->use_tcp = false;
-            }
-            if (isset($fileobj->hostname)) {
-                $res->hostname = $fileobj->hostname;
-            } else {
-                $res->hostname = "127.0.0.1";
-            }
-            if (isset($fileobj->baseport)) {
-                $res->baseport = $fileobj->baseport;
-            } else {
-                $res->baseport = 6250;
-            }
-        }
-        return $res;
-    }
-}; ?>
+}
+
+; ?>

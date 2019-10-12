@@ -1,13 +1,15 @@
 <?php
-use WhatsApp\Security\UserProvider;
-use WhatsApp\Security\ApiKeyAuthenticator;
-use WhatsApp\Security\TokenAuthenticator;
-use WhatsApp\Common\RateLimiter;
-use WhatsApp\Constants;
+
+use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestMatcher;
 use Symfony\Component\HttpFoundation\Response;
-use Silex\Application;
+use WhatsApp\Common\RateLimiter;
+use WhatsApp\Constants;
+use WhatsApp\Security\ApiKeyAuthenticator;
+use WhatsApp\Security\TokenAuthenticator;
+use WhatsApp\Security\UserProvider;
+
 $app['app.token_authenticator'] = function () use ($app) {
     return new TokenAuthenticator($app['security.encoder_factory'], $app);
 };

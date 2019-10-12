@@ -1,6 +1,8 @@
 <?php
+
 namespace WhatsApp;
-class Constants {
+class Constants
+{
     const ADMIN_PASSWORD = '$2y$10$sgLDc2MRSh2FYtaBD22kOOU/taJQXI/PF8TSJfms09.fE0iV4vNbm';
     const ADMIN_NAME = 'admin';
     const ADMIN_ROLE = 'ROLE_ADMIN';

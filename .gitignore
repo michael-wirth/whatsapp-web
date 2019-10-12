@@ -1,0 +1,12 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+vendor/doctrine/common/lib/vendor/
+vendor/doctrine/dbal/docs/en/_theme/
+vendor/doctrine/dbal/lib/vendor/
+vendor/monolog/monolog/tests/Monolog/Handler/Fixtures/
