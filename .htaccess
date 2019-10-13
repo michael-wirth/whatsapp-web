@@ -1,3 +1,11 @@
+Header unset WWW-Authenticate
+
+SetEnvIf Request_URI /admin_update NON_API_REQUEST
+Header set X-Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline';" env=NON_API_REQUEST
+Header set X-Content-Type-Options nosniff env=NON_API_REQUEST
+Header set X-Frame-Options DENY env=NON_API_REQUEST 
+Header set X-XSS-Protection 1 env=NON_API_REQUEST
+Header set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=NON_API_REQUEST
 
 RewriteEngine On
 RewriteBase /
@@ -7,8 +15,9 @@ RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 
 RewriteRule  ^$ /admin_updates/admin/index.html [L]
 
+RewriteCond %{REQUEST_URI} !^/admin_updates
 #skip existing files or directories
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 #everything else goes to index.php
-RewriteRule ^ index.php?request=%{THE_REQUEST} [L]
+RewriteRule ^ index.php [L]

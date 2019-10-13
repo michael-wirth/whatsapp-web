@@ -14,8 +14,6 @@ abstract class PORT_OFFSET
     const CONTROL_PORT = 2;
 }
 
-;
-
 class Connector
 {
     const PORT_OFFSET_MAP = array('message' => PORT_OFFSET::MESSAGE_PORT, 'contact' => PORT_OFFSET::CONTACT_PORT, 'control' => PORT_OFFSET::CONTROL_PORT,);
